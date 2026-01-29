@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ProofStamp</string>
+    <string name="title_activity_main">ProofStamp</string>
+    <string name="package_name">com.xley9.proofstamp</string>
+    <string name="custom_url_scheme">com.xley9.proofstamp</string>
+</resources>

@@ -1,0 +1,16 @@
+{
+  "appId": "com.xley9.proofstamp",
+  "appName": "ProofStamp",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "Camera": {
+      "permissionType": "prompt"
+    },
+    "Geolocation": {
+      "permissionType": "prompt"
+    }
+  }
+}
