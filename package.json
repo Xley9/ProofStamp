@@ -9,7 +9,15 @@
     "cap:open": "npx cap open android",
     "cap:run": "npx cap run android"
   },
-  "keywords": ["evidence", "proof", "hash", "sha256", "pwa", "camera", "gps"],
+  "keywords": [
+    "evidence",
+    "proof",
+    "hash",
+    "sha256",
+    "pwa",
+    "camera",
+    "gps"
+  ],
   "author": "Xley9",
   "license": "MIT",
   "dependencies": {
@@ -20,5 +28,8 @@
     "@capacitor/filesystem": "^8.1.0",
     "@capacitor/geolocation": "^8.0.0",
     "@capacitor/share": "^8.0.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
