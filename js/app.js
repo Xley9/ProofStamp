@@ -731,10 +731,21 @@ const App = (function() {
     const firstImage = proof.files.find(f => f.type.startsWith("image/"));
     if (firstImage) {
       try {
-        const imgHeight = 80;
-        const imgWidth = w - 40;
+        const maxWidth = w - 40;
+        const maxHeight = 100;
+        // Load image to get real dimensions
+        const img = await new Promise((resolve, reject) => {
+          const i = new Image();
+          i.onload = () => resolve(i);
+          i.onerror = reject;
+          i.src = firstImage.dataUrl;
+        });
+        const ratio = Math.min(maxWidth / img.naturalWidth, maxHeight / img.naturalHeight);
+        const imgWidth = img.naturalWidth * ratio;
+        const imgHeight = img.naturalHeight * ratio;
+        const imgX = 20 + (maxWidth - imgWidth) / 2;
         if (y + imgHeight > 270) { doc.addPage(); y = 20; }
-        doc.addImage(firstImage.dataUrl, "JPEG", 20, y, imgWidth, imgHeight);
+        doc.addImage(firstImage.dataUrl, "JPEG", imgX, y, imgWidth, imgHeight);
         y += imgHeight + 8;
       } catch { /* skip image if it fails */ }
     }
