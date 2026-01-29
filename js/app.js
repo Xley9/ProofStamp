@@ -781,9 +781,17 @@ const App = (function() {
         hash: proof.combinedHash,
         timestamp: proof.timestamp
       });
-      const qrCanvas = document.createElement("canvas");
-      await QRCode.toCanvas(qrCanvas, qrData, { width: 120, margin: 1 });
+      // Create temporary div for QR code generation
+      const qrContainer = document.createElement("div");
+      qrContainer.style.position = "absolute";
+      qrContainer.style.left = "-9999px";
+      document.body.appendChild(qrContainer);
+      new QRCode(qrContainer, { text: qrData, width: 120, height: 120, correctLevel: QRCode.CorrectLevel.M });
+      // Wait a frame for canvas to render
+      await new Promise(r => setTimeout(r, 50));
+      const qrCanvas = qrContainer.querySelector("canvas");
       const qrDataUrl = qrCanvas.toDataURL("image/png");
+      document.body.removeChild(qrContainer);
       doc.addImage(qrDataUrl, "PNG", w / 2 - 15, y, 30, 30);
       y += 34;
       doc.setFontSize(7);
