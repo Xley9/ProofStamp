@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="ProofStamp – Sichere Beweise digital mit Foto, Zeitstempel, GPS und SHA-256 Hash">
+  <meta name="theme-color" content="#6C63FF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>ProofStamp – Digitaler Beweissicherer</title>
+  <link rel="icon" href="img/favicon.svg">
+  <link rel="apple-touch-icon" href="img/icon-192.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="header-logo" onclick="event.preventDefault()">
+        <img src="img/favicon.svg" alt="ProofStamp">
+        <span data-i18n="appName">ProofStamp</span>
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" id="btnTheme" title="Theme" onclick="App.cycleTheme()">🌙</button>
+        <button class="icon-btn" id="btnLang" title="Sprache" onclick="App.openSettings()">🌐</button>
+        <button class="icon-btn" id="btnSettings" title="Settings" onclick="App.openSettings()">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main" id="mainContent">
+
+    <!-- Onboarding -->
+    <section class="onboarding" id="onboarding">
+      <div class="onboarding-icon">🛡️</div>
+      <h2 data-i18n="onboardingTitle">Willkommen bei ProofStamp</h2>
+      <p data-i18n="onboardingSubtitle">Sichere deine Beweise digital – in 3 einfachen Schritten</p>
+      <div class="onboarding-steps">
+        <div class="onboarding-step">
+          <div class="onboarding-step-num">1</div>
+          <div>
+            <h3 data-i18n="onboardingStep1Title">Foto aufnehmen</h3>
+            <p data-i18n="onboardingStep1Desc">Fotografiere den Beweis direkt mit deiner Kamera oder lade eine Datei hoch.</p>
+          </div>
+        </div>
+        <div class="onboarding-step">
+          <div class="onboarding-step-num">2</div>
+          <div>
+            <h3 data-i18n="onboardingStep2Title">Hash erzeugen</h3>
+            <p data-i18n="onboardingStep2Desc">Ein einzigartiger SHA-256 Fingerabdruck wird automatisch berechnet.</p>
+          </div>
+        </div>
+        <div class="onboarding-step">
+          <div class="onboarding-step-num">3</div>
+          <div>
+            <h3 data-i18n="onboardingStep3Title">Beweis sichern</h3>
+            <p data-i18n="onboardingStep3Desc">Zeitstempel, GPS und Hash – alles wird fälschungssicher gespeichert.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="App.finishOnboarding()" data-i18n="onboardingStart">Los geht's</button>
+      <button class="btn btn-ghost" onclick="App.finishOnboarding()" data-i18n="onboardingSkip" style="margin-top:8px">Überspringen</button>
+    </section>
+
+    <!-- App Content (hidden until onboarding done) -->
+    <div id="appContent" class="hidden">
+
+      <!-- Dashboard -->
+      <section class="dashboard">
+        <h2 data-i18n="dashboardTitle">Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label" data-i18n="totalProofs">Beweise gesamt</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statMonth">0</div>
+            <div class="stat-label" data-i18n="thisMonth">Diesen Monat</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statCategories">0</div>
+            <div class="stat-label" data-i18n="categoriesUsed">Kategorien</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Proof List -->
+      <section class="proof-section">
+        <div class="section-header">
+          <h2 data-i18n="proofListTitle">Meine Beweise</h2>
+          <div class="view-toggle" id="viewToggle">
+            <button class="active" data-view="gallery" onclick="App.setView('gallery')" data-i18n="viewGallery">Galerie</button>
+            <button data-view="list" onclick="App.setView('list')" data-i18n="viewList">Liste</button>
+          </div>
+        </div>
+
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Beweise durchsuchen..." oninput="App.onSearch(this.value)">
+        </div>
+
+        <div class="filters" id="filterChips"></div>
+
+        <div id="proofContainer"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FAB Buttons -->
+  <div class="fab-container hidden" id="fabContainer">
+    <button class="fab fab-secondary" onclick="App.openVerify()" title="Verifizieren">✓</button>
+    <button class="fab fab-primary" onclick="App.openCreate()" title="Beweis erstellen">+</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" id="appFooter">
+    <span data-i18n="footerText">Alle Daten bleiben lokal auf deinem Gerät.</span>
+  </footer>
+
+  <!-- Create/Edit Modal -->
+  <div class="modal-overlay" id="createModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="createModalTitle" data-i18n="createProof">Beweis erstellen</h2>
+        <button class="icon-btn" onclick="App.closeCreate()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" data-i18n="proofTitle">Titel</label>
+          <input class="form-input" type="text" id="proofTitleInput" data-i18n-placeholder="proofTitlePlaceholder" placeholder="z.B. Kratzer am Mietwagen">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="proofDescription">Beschreibung</label>
+          <textarea class="form-textarea" id="proofDescInput" data-i18n-placeholder="proofDescriptionPlaceholder" placeholder="Optionale Beschreibung..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="proofCategory">Kategorie</label>
+          <select class="form-select" id="proofCategoryInput">
+            <option value="" data-i18n="selectCategory">Kategorie wählen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="proofFiles">Dateien</label>
+          <div class="file-upload-zone" id="fileUploadZone">
+            <div class="file-upload-zone-icon">📁</div>
+            <p data-i18n="orDragDrop">oder per Drag &amp; Drop</p>
+            <div class="file-upload-btns">
+              <button class="btn btn-sm btn-secondary" onclick="App.capturePhoto()">📷 <span data-i18n="capturePhoto">Foto aufnehmen</span></button>
+              <button class="btn btn-sm btn-secondary" onclick="App.triggerFileUpload()">📎 <span data-i18n="uploadFiles">Dateien hochladen</span></button>
+            </div>
+          </div>
+          <input type="file" id="fileInput" multiple accept="image/*,application/pdf,.doc,.docx,.txt" class="hidden">
+          <input type="file" id="cameraInput" capture="environment" accept="image/*" class="hidden">
+          <div class="file-preview-list" id="filePreviewList"></div>
+        </div>
+        <div class="form-group">
+          <button class="location-btn" id="locationBtn" onclick="App.requestLocation()">
+            📍 <span data-i18n="addLocation">Standort hinzufügen</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="App.closeCreate()" style="flex:1" data-i18n="cancel">Abbrechen</button>
+        <button class="btn btn-primary" onclick="App.saveProof()" style="flex:2" id="saveProofBtn" data-i18n="saveProof">Beweis sichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 data-i18n="proofDetail">Beweisdetail</h2>
+        <button class="icon-btn" onclick="App.closeDetail()">✕</button>
+      </div>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <!-- Verify Modal -->
+  <div class="modal-overlay" id="verifyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 data-i18n="verifyTitle">Beweis verifizieren</h2>
+        <button class="icon-btn" onclick="App.closeVerify()">✕</button>
+      </div>
+      <div class="modal-body" id="verifyBody">
+        <p data-i18n="verifyDesc" style="color:var(--text-secondary);margin-bottom:16px;">Lade eine Datei hoch, um ihren Hash mit einem gespeicherten Beweis zu vergleichen.</p>
+        <div class="form-group">
+          <label class="form-label" data-i18n="verifySelectProof">Beweis zum Vergleichen wählen</label>
+          <select class="form-select" id="verifyProofSelect" onchange="App.onVerifyProofChange()">
+            <option value="">--</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="verifySelectFile">Datei im Beweis wählen</label>
+          <select class="form-select" id="verifyFileSelect">
+            <option value="">--</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="verifyUpload">Datei zum Verifizieren hochladen</label>
+          <div class="file-upload-zone" id="verifyUploadZone" onclick="document.getElementById('verifyFileInput').click()">
+            <div class="file-upload-zone-icon">🔍</div>
+            <p data-i18n="verifyUpload">Datei zum Verifizieren hochladen</p>
+          </div>
+          <input type="file" id="verifyFileInput" class="hidden" onchange="App.onVerifyFileSelected(this.files)">
+        </div>
+        <div id="verifyResultContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 data-i18n="settingsTitle">Einstellungen</h2>
+        <button class="icon-btn" onclick="App.closeSettings()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <h3 data-i18n="themeLabel">Design</h3>
+          <div class="theme-toggle-group" id="themeGroup">
+            <button data-theme-val="dark" onclick="App.setTheme('dark')"><span data-i18n="themeDark">Dunkel</span></button>
+            <button data-theme-val="light" onclick="App.setTheme('light')"><span data-i18n="themeLight">Hell</span></button>
+            <button data-theme-val="system" onclick="App.setTheme('system')"><span data-i18n="themeSystem">System</span></button>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h3 data-i18n="languageLabel">Sprache</h3>
+          <div class="lang-select-group" id="langGroup">
+            <button data-lang-val="de" onclick="App.changeLang('de')">DE</button>
+            <button data-lang-val="en" onclick="App.changeLang('en')">EN</button>
+            <button data-lang-val="tr" onclick="App.changeLang('tr')">TR</button>
+            <button data-lang-val="es" onclick="App.changeLang('es')">ES</button>
+            <button data-lang-val="fr" onclick="App.changeLang('fr')">FR</button>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h3 data-i18n="dataManagement">Datenverwaltung</h3>
+          <button class="btn btn-secondary settings-btn" onclick="App.exportData()">📤 <span data-i18n="exportData">Daten exportieren</span></button>
+          <button class="btn btn-secondary settings-btn" onclick="App.importData()">📥 <span data-i18n="importData">Daten importieren</span></button>
+          <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="App.handleImport(this.files)">
+          <button class="btn btn-danger settings-btn" onclick="App.confirmDeleteAll()">🗑️ <span data-i18n="deleteAllData">Alle Daten löschen</span></button>
+        </div>
+        <div class="settings-group" style="text-align:center;color:var(--text-muted);font-size:0.8rem;">
+          <p><span data-i18n="appName">ProofStamp</span> <span data-i18n="version">Version</span> <span id="appVersion">1.0.0</span></p>
+          <p><span data-i18n="madeWith">Mit ♥ erstellt</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Dialog -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-dialog">
+      <h3 id="confirmTitle"></h3>
+      <p id="confirmDesc"></p>
+      <div class="confirm-dialog-btns">
+        <button class="btn btn-secondary" onclick="App.closeConfirm()" data-i18n="cancel">Abbrechen</button>
+        <button class="btn btn-danger" id="confirmBtn" data-i18n="confirm">Bestätigen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
