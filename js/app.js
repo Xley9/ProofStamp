@@ -598,8 +598,9 @@ const App = (function() {
     btn.textContent = btnText;
     confirmCallback = callback;
     btn.onclick = () => {
+      const cb = confirmCallback;
       closeConfirm();
-      if (confirmCallback) confirmCallback();
+      if (cb) cb();
     };
     document.getElementById("confirmOverlay").classList.add("active");
   }
