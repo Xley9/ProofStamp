@@ -313,7 +313,44 @@ Jeder Mensch besitzt hunderte Dinge (Laptop, TV, Möbel, Kleidung, Schmuck, Fahr
 
 ---
 
+### Projekt 4: ExpiryGuard (BEREITS GESTARTET)
+**Status:** Konzept fertig, Ordner existiert: `C:\Users\Ati\Desktop\ExpiryGuard\NOTES.md`
+**Verwandt mit:** SubTracker (projekt X in lofi-master, bereits gebaut)
+
+**Idee:** Universeller Ablauf-Tracker – alles was in deinem Leben abläuft, an einem Ort.
+
+**Das Problem:**
+Jeder Mensch hat Dutzende Dinge die ablaufen – Reisepass, Führerschein, Versicherungen, Garantien, Verträge, Medikamente, TÜV, Kreditkarten, Visa, Kündigungsfristen. NIEMAND trackt das systematisch. Die meisten merken es erst wenn es zu spät ist – und dann kostet es Geld, Zeit oder verpasste Chancen.
+
+**Was die App macht:**
+- Dokument/Vertrag hinzufügen (Name, Ablaufdatum, Kategorie)
+- Foto vom Dokument anhängen (lokal in IndexedDB)
+- Erinnerungen: 30/60/90 Tage vorher (Browser-Notifications)
+- Farbcodierung: Grün (OK), Gelb (bald ablaufend), Rot (abgelaufen)
+- Vorlagen: Reisepass, Führerschein, Personalausweis, Versicherung, etc.
+- Kategorien: Ausweise, Versicherungen, Verträge, Fahrzeug, Garantien, Gesundheit, Finanzen
+- Export/Import als JSON-Backup
+- Mehrsprachig (DE, EN, TR, ES, FR)
+- Dark/Light Mode
+- 100% offline, Privacy-First
+
+**Zielgruppe:** Buchstäblich jeder Erwachsene auf der Welt. 5+ Milliarden Smartphone-Nutzer haben Dokumente die ablaufen.
+
+**Tech-Stack:** HTML + CSS + Vanilla JS + PWA + Capacitor Android (gleicher Stack wie ProofStamp und SubTracker)
+
+**Monetarisierung:** Freemium – Basis kostenlos, Premium mit erweiterten Erinnerungen und PDF-Export.
+
+**Unique Selling Point:** Kein Mensch hat ein System für ablaufende Dinge. ExpiryGuard ist der digitale Post-It für dein ganzes Leben. Privacy-First wie alle unsere Apps.
+
+---
+
 ### Projekt-Reihenfolge (Empfehlung)
-1. **WhatIOwn** – Am schnellsten zu bauen (90% gleicher Code wie ProofStamp), klarer Nutzen, Schwester-App
-2. **MoodSnap** – Virales Potenzial, riesiger Markt, Mental Health Trend
-3. **OneLife** – Am komplexesten (API-Integrationen), aber größtes Langzeit-Potenzial
+1. **ExpiryGuard** – Konzept bereits fertig, Ordner existiert, muss nur gebaut werden
+2. **WhatIOwn** – Am schnellsten zu bauen (90% gleicher Code wie ProofStamp), klarer Nutzen, Schwester-App
+3. **MoodSnap** – Virales Potenzial, riesiger Markt, Mental Health Trend
+4. **OneLife** – Am komplexesten (API-Integrationen), aber größtes Langzeit-Potenzial
+
+### Bereits existierende Projekte
+- **ProofStamp** – Digitale Beweissicherung (fertig, Play Store Veröffentlichung läuft)
+- **SubTracker** – Abo-Tracker (fertig, in lofi-master/projekt X)
+- **ExpiryGuard** – Ablauf-Tracker (Konzept fertig, C:\Users\Ati\Desktop\ExpiryGuard)
