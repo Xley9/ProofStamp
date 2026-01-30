@@ -224,3 +224,96 @@ Repository: https://github.com/Xley9/ProofStamp
 - Test-Link wird nach Veröffentlichung des geschlossenen Tests angezeigt
 - Tester müssen Link öffnen → "Tester werden" → App installieren → 14 Tage behalten
 - 6 Tester bestätigt, 6 noch offen
+
+---
+
+## NÄCHSTE PROJEKTE – App-Ideen Pipeline
+
+### Projekt 1: OneLife / LifeBoard
+**Idee:** Dein ganzes digitales Leben auf einem einzigen Screen.
+
+**Das Problem:**
+Nutzer wechseln täglich zwischen 7-8 Apps hin und her (WhatsApp, E-Mail, Kalender, Bank, Wetter, News, Social Media). Jedes Mal App öffnen, laden, scrollen, schließen. Das kostet Zeit und Aufmerksamkeit. Es gibt keine App die ALLES auf einen Blick zeigt.
+
+**Was die App macht:**
+- Ein einziges Dashboard das alle wichtigen Infos zusammenfasst
+- Ungelesene Nachrichten (WhatsApp, SMS, E-Mail) – nur Anzahl + Vorschau
+- Heutige Termine (Kalender)
+- To-Do-Liste (heute fällig)
+- Kontostand (Bank-API oder manuelle Eingabe)
+- Wetter aktuell
+- Nächster Bus/Bahn (optional)
+- Bildschirmzeit-Zusammenfassung
+- KEIN Scrollen, KEIN Feed – nur die Facts die du brauchst
+
+**Zielgruppe:** Alle Smartphone-Nutzer die täglich zwischen vielen Apps wechseln (5,78 Mrd. Smartphone-Nutzer weltweit).
+
+**Tech-Stack:** PWA + Capacitor Android, API-Integrationen (Kalender, Wetter), lokale Widgets, eventuell Android-Widget.
+
+**Monetarisierung:** Freemium – Basis kostenlos, Premium mit Bank-Integration und erweiterten Widgets.
+
+**Unique Selling Point:** Keine andere App zeigt ALLES auf einem Screen ohne Social-Media-Feed. Weniger Scrollen = mehr Zeit.
+
+---
+
+### Projekt 2: MoodSnap
+**Idee:** Wie fühlst du dich NACH Social Media? Deine Stimmung tracken in 1 Tap.
+
+**Das Problem:**
+5,66 Milliarden Menschen nutzen Social Media durchschnittlich 2h 23min täglich. Viele fühlen sich danach schlecht, wissen aber nicht WELCHE App ihnen schadet und welche gut tut. Es gibt keine einfache Methode das herauszufinden. Mental Health + Social Media ist DAS Thema unserer Zeit.
+
+**Was die App macht:**
+- Nach jeder Social-Media-Session: 1 Tap = Stimmung bewerten (1-5 oder Emoji)
+- App erkennt automatisch welche Social-Media-App gerade benutzt wurde (Android Usage API)
+- Nach einer Woche zeigt die App Auswertungen:
+  - "Nach TikTok fühlst du dich 70% schlechter"
+  - "Nach YouTube fühlst du dich 60% besser"
+  - "Instagram macht dich morgens traurig, abends neutral"
+- Wöchentlicher/monatlicher Stimmungsbericht
+- Trends über Zeit: Wird es besser oder schlechter?
+- Optional: Empfehlungen ("Reduziere TikTok um 30 Min, ersetze durch YouTube")
+- Ergebnisse als Grafik teilbar (viral: Leute posten ihre Ergebnisse)
+
+**Zielgruppe:** Gen Z und Millennials (16-35 Jahre), besonders Frauen (höhere Social-Media-Nutzung). Riesiger Markt: 5,66 Mrd. Social-Media-Nutzer, Gen Z verbringt 4h täglich auf Social Media.
+
+**Tech-Stack:** PWA + Capacitor Android, Android Usage Stats API (erkennt welche App genutzt wurde), lokale Datenbank (IndexedDB), Chart-Library für Auswertungen, Share-API für virale Verbreitung.
+
+**Monetarisierung:** Freemium – Basis-Tracking kostenlos, Premium mit detaillierten Analysen, PDF-Reports und personalisierten Empfehlungen.
+
+**Unique Selling Point:** Einfachste Mental-Health-App der Welt. 1 Tap. Keine Tagebücher, keine langen Fragebögen. Daten bleiben lokal (Privacy-First wie ProofStamp). Virales Potenzial weil Leute Ergebnisse teilen.
+
+---
+
+### Projekt 3: WhatIOwn / MyStuff
+**Idee:** Digitales Inventar deines gesamten Besitzes – für Versicherung, Umzug und Überblick.
+
+**Das Problem:**
+Jeder Mensch besitzt hunderte Dinge (Laptop, TV, Möbel, Kleidung, Schmuck, Fahrrad, etc.) aber NIEMAND hat eine vollständige Liste. Wenn etwas passiert – Einbruch, Brand, Wasserschaden, Versicherungsfall – kann niemand sagen was genau fehlt oder beschädigt ist. Versicherungen verlangen eine Inventarliste, aber die hat keiner.
+
+**Was die App macht:**
+- Foto von jedem Gegenstand aufnehmen
+- Infos hinzufügen: Name, Kategorie, Kaufdatum, Preis, Garantie-Ablauf
+- Kategorien: Elektronik, Möbel, Kleidung, Schmuck, Fahrzeug, Dokumente, Sonstiges
+- Gesamtwert deines Besitzes berechnen
+- Garantie-Ablauf-Erinnerungen ("Dein Laptop hat noch 30 Tage Garantie")
+- PDF-Export: Komplette Inventarliste für Versicherung
+- Such- und Filterfunktion
+- Umzugs-Modus: Gegenstände Räumen zuordnen, Checkliste beim Packen
+- Optional: Kassenbon/Rechnung als Foto anhängen
+- 100% offline, alle Daten lokal (Privacy-First)
+- Backup/Restore per JSON
+
+**Zielgruppe:** Mieter, Hausbesitzer, Versicherte, Menschen die umziehen. Praktisch JEDER Erwachsene braucht das, besonders in Kombination mit einer Hausratversicherung.
+
+**Tech-Stack:** PWA + Capacitor Android (gleicher Stack wie ProofStamp), IndexedDB, Kamera-API, jsPDF für Export. Kann viel Code von ProofStamp wiederverwenden.
+
+**Monetarisierung:** Freemium – Basis kostenlos (bis 50 Gegenstände), Premium unbegrenzt + Garantie-Erinnerungen + erweiterte PDF-Reports.
+
+**Unique Selling Point:** Schwester-App zu ProofStamp. Gleiche Philosophie: Privacy-First, offline, einfach. ProofStamp sichert Beweise, WhatIOwn sichert Besitz. Zusammen ein starkes Duo. Niemand hat eine gute, einfache, offline Inventar-App.
+
+---
+
+### Projekt-Reihenfolge (Empfehlung)
+1. **WhatIOwn** – Am schnellsten zu bauen (90% gleicher Code wie ProofStamp), klarer Nutzen, Schwester-App
+2. **MoodSnap** – Virales Potenzial, riesiger Markt, Mental Health Trend
+3. **OneLife** – Am komplexesten (API-Integrationen), aber größtes Langzeit-Potenzial
