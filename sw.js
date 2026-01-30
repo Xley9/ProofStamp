@@ -1,5 +1,5 @@
 /* ProofStamp – Service Worker */
-const CACHE_NAME = "proofstamp-v1";
+const CACHE_NAME = "proofstamp-v2";
 const ASSETS = [
   "./",
   "./index.html",
